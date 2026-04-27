@@ -15,6 +15,7 @@ import SandboxPage from './components/SandboxPage';
 import MyFavoritesPage from './components/MyFavoritesPage';
 import ModeIntroPage from './components/ModeIntroPage';
 import ServiceModePage from './components/ServiceModePage';
+import BookingModal from './components/BookingModal';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -5019,40 +5020,11 @@ export default function App() {
         currentCity={selectedCity}
       />
 
-      {/* Booking Success Modal */}
-      <AnimatePresence>
-        {showBookingModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[300] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
-            onClick={() => setShowBookingModal(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              className="bg-white rounded-[32px] p-8 max-w-[320px] w-full text-center shadow-2xl relative"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="w-16 h-16 mx-auto bg-green-50 rounded-2xl flex items-center justify-center mb-6">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">预约成功</h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-8">
-                已经给您对接大宅私属顾问，晚些时候会联系您，感谢您的信任。
-              </p>
-              <button
-                onClick={() => setShowBookingModal(false)}
-                className="w-full bg-zinc-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-colors active:scale-95"
-              >
-                我知道了
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <BookingModal 
+        isOpen={showBookingModal} 
+        onClose={() => setShowBookingModal(false)} 
+        currentCity={selectedCity}
+      />
     </div>
   );
 }
