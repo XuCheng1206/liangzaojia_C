@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, Heart, UserPlus, MessageCircle } from 'lucide-react';
+import { ChevronLeft, Heart, UserPlus, MessageCircle, Contact } from 'lucide-react';
 import { motion } from 'motion/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -111,6 +111,57 @@ export const CommentsPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+export const BusinessCardsPage = ({ onBack }: { onBack: () => void }) => {
+  const cards = [
+    { id: 1, name: '林嘉豪', title: '高级空间设计师', expertise: ['别墅大宅', '现代极简'], time: '10分钟前', avatar: 'https://i.pravatar.cc/150?u=lin' },
+    { id: 2, name: '苏婉儿', title: '全屋定制专家', expertise: ['收纳系统', '意式轻奢'], time: '昨天', avatar: 'https://i.pravatar.cc/150?u=su' },
+    { id: 3, name: '王振华', title: '资深项目经理', expertise: ['工程监理', '工艺交付'], time: '2024-02-21', avatar: 'https://i.pravatar.cc/150?u=wangzh' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="sticky top-0 z-50 bg-white px-4 py-4 border-b border-gray-50 flex items-center justify-center relative">
+        <button onClick={onBack} className="absolute left-4 p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <ChevronLeft className="w-6 h-6 text-gray-800" />
+        </button>
+        <h1 className="text-lg font-bold text-gray-900">名片通知</h1>
+      </div>
+      <div className="flex-1 p-4 space-y-4">
+        {cards.map((card) => (
+          <div key={card.id} className="bg-white rounded-[24px] p-5 shadow-sm border border-gray-100 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer">
+            <div className="relative">
+              <img src={card.avatar} alt={card.name} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-white rounded-full" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="text-base font-bold text-gray-900 truncate">{card.name}</h3>
+                <span className="text-[10px] text-gray-400 font-medium">{card.time}</span>
+              </div>
+              <p className="text-xs text-blue-600 font-bold mb-2">{card.title}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {card.expertise.map((exp, i) => (
+                  <span key={i} className="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-500 rounded-md font-medium">#{exp}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+        {cards.length === 0 && (
+          <div className="py-20 text-center">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Contact className="w-8 h-8 text-gray-300" />
+            </div>
+            <p className="text-sm text-gray-400">暂无名片通知</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const MessagesPage = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
   const messages = [
     { id: 1, name: '系统通知', content: '您的案例“现代简约风格”已通过审核', time: '10:30', avatar: 'https://picsum.photos/seed/sys/100/100', unread: 1 },
@@ -122,6 +173,7 @@ export const MessagesPage = ({ onNavigate }: { onNavigate: (page: string) => voi
     { id: 'likes', label: '赞和收藏', icon: Heart, color: 'bg-red-50', iconColor: 'text-red-500', target: 'likes-collections' },
     { id: 'followers', label: '新增关注', icon: UserPlus, color: 'bg-blue-50', iconColor: 'text-blue-500', target: 'new-followers' },
     { id: 'comments', label: '评论', icon: MessageCircle, color: 'bg-emerald-50', iconColor: 'text-emerald-500', target: 'comments' },
+    { id: 'business-cards', label: '名片通知', icon: Contact, color: 'bg-indigo-50', iconColor: 'text-indigo-500', target: 'business-cards' },
   ];
 
   return (

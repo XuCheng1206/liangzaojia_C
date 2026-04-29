@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Bell, LayoutGrid, Users, FileText, Box, MapPin, Flame, Plus, Home, User, ChevronLeft, Heart, Play, Layers, MessageCircle, Bookmark, Share2, X, UserPlus, Send, MoreHorizontal, Link, MessageSquare, Image, Video, Camera, ArrowRight, Pencil, Phone, BookOpen, ClipboardCheck, LogOut, ChevronRight, ChevronDown, Award, Eye, Clock, AlertCircle, CheckCircle2, Power, ArrowUpCircle, Building2, Map, Upload, Sparkles, Wand2, Maximize2, Minimize2, CreditCard, PieChart, Zap, Star, Fingerprint, Shield, Copy, Wallet, Briefcase, Coins, Quote, Check, Filter, Bot, Settings, ShieldCheck } from 'lucide-react';
+import { Search, Bell, LayoutGrid, Users, FileText, Box, MapPin, Flame, Plus, Home, User, ChevronLeft, Heart, Play, Layers, MessageCircle, Bookmark, Share2, X, UserPlus, Send, MoreHorizontal, Link, MessageSquare, Image, Video, Camera, ArrowRight, Pencil, Phone, BookOpen, ClipboardCheck, LogOut, ChevronRight, ChevronDown, Award, Eye, Clock, AlertCircle, CheckCircle2, Power, ArrowUpCircle, Building2, Map, Upload, Sparkles, Wand2, Maximize2, Minimize2, CreditCard, PieChart, Zap, Star, Fingerprint, Shield, Copy, Wallet, Briefcase, Coins, Quote, Check, Filter, Bot, Settings, ShieldCheck, Contact } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 import { clsx, type ClassValue } from 'clsx';
@@ -3976,10 +3976,54 @@ const CommentsPage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const BusinessCardsPage = ({ onBack }: { onBack: () => void }) => {
+  const cards = [
+    { id: 1, name: '林嘉豪', title: '高级空间设计师', expertise: ['别墅大宅', '现代极简'], time: '10分钟前', avatar: 'https://i.pravatar.cc/150?u=lin' },
+    { id: 2, name: '苏婉儿', title: '全屋定制专家', expertise: ['收纳系统', '意式轻奢'], time: '昨天', avatar: 'https://i.pravatar.cc/150?u=su' },
+    { id: 3, name: '王振华', title: '资深项目经理', expertise: ['工程监理', '工艺交付'], time: '2024-02-21', avatar: 'https://i.pravatar.cc/150?u=wangzh' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="sticky top-0 z-50 bg-white px-4 py-4 border-b border-gray-50 flex items-center justify-center relative">
+        <button onClick={onBack} className="absolute left-4 p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <ChevronLeft className="w-6 h-6 text-gray-800" />
+        </button>
+        <h1 className="text-lg font-bold text-gray-900">我收到的名片</h1>
+      </div>
+      <div className="flex-1 p-4 space-y-4">
+        {cards.map((card) => (
+          <div key={card.id} className="bg-white rounded-[24px] p-5 shadow-sm border border-gray-100 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer">
+            <div className="relative">
+              <img src={card.avatar} alt={card.name} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" />
+              <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-white rounded-full" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="text-base font-bold text-gray-900 truncate">{card.name}</h3>
+                <span className="text-[10px] text-gray-400 font-medium">{card.time}</span>
+              </div>
+              <p className="text-xs text-blue-600 font-bold mb-2">{card.title}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {card.expertise.map((exp, i) => (
+                  <span key={i} className="text-[10px] px-2 py-0.5 bg-gray-50 text-gray-500 rounded-md font-medium">#{exp}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const MessagesPage = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
   const messages = [
-    { id: 1, name: '系统通知', content: '您的案例“现代简约风格”已通过审核', time: '10:30', avatar: 'https://picsum.photos/seed/sys/100/100', unread: 1 },
-    { id: 2, name: '项目通知', content: '您的项目“上海檀宫别墅”有新的施工进度更新', time: '昨天', avatar: 'https://picsum.photos/seed/project/100/100', unread: 0 },
+    { id: 1, name: '系统通知', content: '您的案例“现代简约风格”已通过审核', time: '10:30', avatar: 'https://picsum.photos/seed/sys/100/100', unread: 1, type: 'sys' },
+    { id: 2, name: '项目通知', content: '您的项目“上海檀宫别墅”有新的施工进度更新', time: '昨天', avatar: 'https://picsum.photos/seed/project/100/100', unread: 0, type: 'project' },
+    { id: 3, name: '我收到的名片', content: '林嘉豪等 3 位从业者给您分享了名片', time: '10分钟前', avatar: 'https://i.pravatar.cc/150?u=lin', unread: 0, type: 'cards' },
   ];
 
   return (
@@ -3990,9 +4034,21 @@ const MessagesPage = ({ onNavigate }: { onNavigate: (page: string) => void }) =>
 
       <div className="divide-y divide-gray-50">
         {messages.map((msg) => (
-          <div key={msg.id} className="flex items-center gap-4 px-4 py-4 active:bg-gray-50 transition-colors">
+          <div 
+            key={msg.id} 
+            className="flex items-center gap-4 px-4 py-4 active:bg-gray-50 transition-colors cursor-pointer"
+            onClick={() => {
+              if (msg.type === 'cards') onNavigate('business-cards');
+            }}
+          >
             <div className="relative">
-              <img src={msg.avatar} alt={msg.name} className="w-12 h-12 rounded-full object-cover" />
+              {msg.type === 'cards' ? (
+                <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center relative border border-indigo-100">
+                  <Contact className="w-6 h-6 text-indigo-500" />
+                </div>
+              ) : (
+                <img src={msg.avatar} alt={msg.name} className="w-12 h-12 rounded-full object-cover" />
+              )}
               {msg.unread > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
                   {msg.unread}
@@ -4726,7 +4782,7 @@ const FollowingPage = ({ onBack }: { onBack: () => void }) => {
 };
 
 export default function App() {
-  const [page, setPage] = useState<'home' | 'cases' | 'real-cases' | 'cooperation' | 'detail' | 'profile' | 'my-cases' | 'my-requirements' | 'messages' | 'my-home' | 'search' | 'mode-intro' | 'service-mode' | 'premium-studio' | 'premium-designer' | 'premium-foreman' | 'following' | 'followers' | 'likes-collections' | 'new-followers' | 'comments' | 'sandbox' | 'my-favorites' | 'browsing-history' | 'settings'>('home');
+  const [page, setPage] = useState<'home' | 'cases' | 'real-cases' | 'cooperation' | 'detail' | 'profile' | 'my-cases' | 'my-requirements' | 'messages' | 'my-home' | 'search' | 'mode-intro' | 'service-mode' | 'premium-studio' | 'premium-designer' | 'premium-foreman' | 'following' | 'followers' | 'likes-collections' | 'new-followers' | 'comments' | 'business-cards' | 'sandbox' | 'my-favorites' | 'browsing-history' | 'settings'>('home');
   const [detailSource, setDetailSource] = useState<'home' | 'cases' | 'real-cases'>('home');
   const [selectedCase, setSelectedCase] = useState<any | null>(null);
   const [isPublishOpen, setIsPublishOpen] = useState(false);
@@ -4865,6 +4921,16 @@ export default function App() {
             exit={{ opacity: 0, x: -20 }}
           >
             <CommentsPage onBack={() => setPage('messages')} />
+          </motion.div>
+        )}
+        {page === 'business-cards' && (
+          <motion.div
+            key="business-cards"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <BusinessCardsPage onBack={() => setPage('messages')} />
           </motion.div>
         )}
         {page === 'settings' && (
